@@ -39,12 +39,15 @@ class Init
       if ( 'page' === $post->post_type && get_option( 'page_on_front' ) == $post->ID && 'page' === get_option( 'show_on_front' ) ) {
         $shortlink = home_url( '/' );
       } elseif ( $post_type->public ) {
-        $url = get_permalink( $post_id );
-        $result = $this->api->create( $url );
-        if( !is_wp_error( $result ) ){
-          $shortlink = $result->shortUrl;
-          update_post_meta( $post_id, '_shlink_shorturl', $result->shortUrl );
-          update_post_meta( $post_id, '_shlink_shortcode', $result->shortCode );
+        $shortlink = get_post_meta( $post_id, '_shlink_shorturl', true );
+        if( empty( $shortlink ) ){
+          $url = get_permalink( $post_id );
+          $result = $this->api->create( $url );
+          if( !is_wp_error( $result ) ){
+            $shortlink = $result->shortUrl;
+            update_post_meta( $post_id, '_shlink_shorturl', $result->shortUrl );
+            update_post_meta( $post_id, '_shlink_shortcode', $result->shortCode );
+          }
         }
       }
     }
