@@ -31,7 +31,7 @@ class Setting
   {
     $settings = get_option( self::key_name );
     if( empty( $settings ) ) return null;
-    else return isset( $settings->{$key} ) ? $settings->{$key} : null;
+    else return isset( $settings[$key] ) ? $settings[$key] : null;
   }
 
   public static function action_settings_link( $links ) {
