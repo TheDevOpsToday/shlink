@@ -5,7 +5,6 @@ class Init
 {
   public static function create_short_url( $shortlink, $id, $context, $allow_slugs )
   {
-    $api = new Api();
     $post_id = 0;
     if ( 'query' === $context && is_singular() ) {
       $post_id = get_queried_object_id();
@@ -25,6 +24,7 @@ class Init
       } elseif ( $post_type->public ) {
         $shortlink = get_post_meta( $post_id, '_shlink_shorturl', true );
         if( empty( $shortlink ) ){
+          $api = new Api();
           $url = get_permalink( $post_id );
           $result = $api->create( $url );
           if( !is_wp_error( $result ) ){
