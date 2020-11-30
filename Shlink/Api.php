@@ -15,6 +15,35 @@ class Api
     $this->version = $settings->api_version;
     $this->timeout = $settings->api_timeout;
     $this->set_headers();
+    $this->starttime = time();
+    $this->debug = false;
+    $this->info  = false;
+    $this->log_file = SHLINK_PATH . '/logs.log';
+    $this->pid = random_int(0, 9999999);
+    $this->info( __DIR__."\n" );
+    $this->info( __CLASS__."\n" );
+    $this->info( sprintf( "Start time: %s\n", date( 'c', $this->starttime ) ) );
+  }
+
+  public function __destruct()
+  {
+    $endtime = time();
+    $this->info( sprintf( "End time: %s\n", date( 'c', $endtime ) ) );
+    $this->info( sprintf( "Run time: %s\n", $endtime - $this->starttime ) );
+  }
+
+  private function log( $message )
+  {
+    if( $this->debug ) echo $message;
+    $message = sprintf("[%s] [%s] %s: %s", $this->pid, date('c'), $this->post->ID, $message );
+    file_put_contents($this->log_file, $message, FILE_APPEND); 
+  }
+
+  private function info( $message )
+  {
+    if( $this->info ) echo $message;
+    $message = sprintf("[%s] [%s] %s: %s", $this->pid, date('c'), $this->post->ID, $message );
+    file_put_contents($this->log_file, $message, FILE_APPEND); 
   }
 
   /**
@@ -44,6 +73,7 @@ class Api
       'timeout' => $this->timeout,
       'body'    => $body
     );
+    $this->info( sprintf("%s - %s\n", $url, serialize($args) ) );
     $response = wp_remote_post( $url, $args );
     $code     = wp_remote_retrieve_response_code( $response );
     $body     = json_decode( wp_remote_retrieve_body( $response ) );

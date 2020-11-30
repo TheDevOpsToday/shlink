@@ -3,26 +3,9 @@ namespace Shlink;
 
 class Init
 {
-  function __construct()
+  public static function create_short_url( $shortlink, $id, $context, $allow_slugs )
   {
-    $this->setting = new Setting();
-    $this->api     = new Api();
-    $this->actions();
-    $this->filters();
-  }
-
-  public function actions()
-  {
-  }
-
-  public function filters()
-  {
-    add_filter( 'pre_get_shortlink', array( $this, 'create_short_url' ), 10, 4 );
-    add_filter( 'get_shortlink', function($s){return $s;} );
-  }
-
-  public function create_short_url( $shortlink, $id, $context, $allow_slugs )
-  {
+    $api = new Api();
     $post_id = 0;
     if ( 'query' === $context && is_singular() ) {
       $post_id = get_queried_object_id();
@@ -43,7 +26,7 @@ class Init
         $shortlink = get_post_meta( $post_id, '_shlink_shorturl', true );
         if( empty( $shortlink ) ){
           $url = get_permalink( $post_id );
-          $result = $this->api->create( $url );
+          $result = $api->create( $url );
           if( !is_wp_error( $result ) ){
             $shortlink = $result->shortUrl;
             update_post_meta( $post_id, '_shlink_shorturl', $result->shortUrl );
