@@ -40,10 +40,8 @@ class Init
         $shortlink = home_url( '/' );
       } elseif ( $post_type->public ) {
         $url = get_permalink( $post_id );
-        $response = $this->api->create( $url );
-        $code = wp_remote_retrieve_response_code( $response );
-        if( 200 === $code ){
-          $result = json_decode( wp_remote_retrieve_body( $response ) );
+        $result = $this->api->create( $url );
+        if( !is_wp_error( $result ) ){
           $shortlink = $result->shortUrl;
           update_post_meta( $post_id, '_shlink_shorturl', $result->shortUrl );
           update_post_meta( $post_id, '_shlink_shortcode', $result->shortCode );
