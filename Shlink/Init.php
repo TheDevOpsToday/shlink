@@ -17,7 +17,8 @@ class Init
 
   public function filters()
   {
-    add_filter( 'get_shortlink', array( $this, 'create_short_url' ), 10, 4 );
+    add_filter( 'pre_get_shortlink', array( $this, 'create_short_url' ), 10, 4 );
+    add_filter( 'get_shortlink', function($s){return $s;} );
   }
 
   public function create_short_url( $shortlink, $id, $context, $allow_slugs )
