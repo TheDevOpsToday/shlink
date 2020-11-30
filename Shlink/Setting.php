@@ -10,6 +10,7 @@ class Setting
   const capability  = 'manage_options';
   const menu_slug   = 'shlink-setting';
   const key_name = 'shlink';
+  const api_timeout = 30;
   const api_min_version = 1;
   const api_max_version = 2;
   const api_config_title = 'API Configuration';
@@ -41,12 +42,13 @@ class Setting
     return $links;
   }
 
-  private function get_settings()
+  final public function get_settings()
   {
     $default = array(
       'api_host' => '',
       'api_key'  => '',
-      'api_version' => '2'
+      'api_version' => self::api_max_version,
+      'api_timeout' => self::api_timeout,
     );
     $settings = get_option( self::key_name );
     if( empty( $settings ) ) $settings = (object) $default;
@@ -133,6 +135,23 @@ class Setting
         'min'   => self::api_min_version,
         'setp'  => 1,
         'max'   => self::api_max_version,
+      )
+    );
+    add_settings_field(
+      $prefix.'_timeout',
+      'API Timeout',
+      array( $this, 'api_config_input' ),
+      self::key_name,
+      $section_id,
+      array(
+        'name'  => sprintf( '%s[api_timeout]', self::key_name ),
+        'id'    => sprintf( '%s-api-timeout', self::key_name ),
+        'type'  => 'number',
+        'value' => $settings->api_timeout,
+        'required' => 'required',
+        'class' => 'tiny-text',
+        'min'   => self::api_timeout,
+        'setp'  => 1,
       )
     );
 

@@ -9,9 +9,11 @@ class Api
 
   function __construct()
   {
-    $this->host = Setting::get_setting( 'api_host' );
-    $this->key = Setting::get_setting( 'api_key' );
-    $this->version = Setting::get_setting( 'api_version' );
+    $settings = Setting::get_settings();
+    $this->host    = $settings->api_host;
+    $this->key     = $settings->api_key;
+    $this->version = $settings->api_version;
+    $this->timeout = $settings->api_timeout;
     $this->set_headers();
   }
 
@@ -39,6 +41,7 @@ class Api
     );
     $args = array(
       'headers' => $this->headers,
+      'timeout' => $this->timeout,
       'body'    => $body
     );
     $response = wp_remote_post( $url, $args );
