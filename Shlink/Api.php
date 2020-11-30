@@ -35,10 +35,10 @@ class Api
     $url = $this->get_url( 'short-urls' );
     $body = array(
       "longUrl"      => $long_url,
-      "customSlug"   => $custom_slug,
       "findIfExists" => true,
       "validateUrl"  => true
     );
+    if( !empty( $custom_slug ) ) $body['customSlug'] = $custom_slug;
     $args = array(
       'headers' => $this->headers,
       'timeout' => $this->timeout,
