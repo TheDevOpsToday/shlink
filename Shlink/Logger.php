@@ -19,27 +19,27 @@ class Logger
   {
     $this->starttime = time();
     $this->pid       = random_int(0, 9999999);
-    $this->info( sprintf( "Start time: %s\n", date( 'c', $this->starttime ) ) );
+    $this->info( sprintf( "Start time: %s", date( 'c', $this->starttime ) ) );
   }
 
   public function end()
   {
     $endtime = time();
-    $this->info( sprintf( "End time: %s\n", date( 'c', $endtime ) ) );
-    $this->info( sprintf( "Run time: %s\n", $endtime - $this->starttime ) );
+    $this->info( sprintf( "End time: %s", date( 'c', $endtime ) ) );
+    $this->info( sprintf( "Run time: %s", $endtime - $this->starttime ) );
   }
 
   public function log( $message )
   {
     if( $this->debug ) echo $message;
-    $message = sprintf("[%s] [%s] %s", $this->pid, date('c'), $message );
+    $message = sprintf("[%s] [%s] %s\n", $this->pid, date('c'), $message );
     file_put_contents($this->log_file, $message, FILE_APPEND);
   }
 
   public function info( $message )
   {
     if( $this->info ) echo $message;
-    $message = sprintf("[%s] [%s] %s", $this->pid, date('c'), $message );
+    $message = sprintf("[%s] [%s] %s\n", $this->pid, date('c'), $message );
     file_put_contents($this->log_file, $message, FILE_APPEND); 
   }
 

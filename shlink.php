@@ -61,7 +61,7 @@ function shlink_generate_short_url( $post_id, $custom_slug = null )
     $permalink = get_permalink( $post_id );
     $shortlink = get_post_meta( $post_id, '_shlink_shorturl', true );
     if( !empty( $shortlink ) ) return $shortlink;
-    $settings = Setting::get_settings();
+    $settings = Shlink\Setting::get_settings();
     // check settings
     if( empty( $settings->api_host ) || empty( $settings->api_key ) || empty( $settings->api_version ) ) return false;
 
@@ -80,7 +80,7 @@ function shlink_generate_short_url( $post_id, $custom_slug = null )
     if( !empty( $custom_slug ) ) $args['body']['customSlug'] = $custom_slug;
     $logger = new Shlink\Logger();
     $logger->start();
-    $logger->log( sprintf( "calling api > %s :: %s\n", $url, serialize( $args ) ) );
+    $logger->log( sprintf( "calling api > %s :: %s", $url, serialize( $args ) ) );
     $response = wp_remote_post( $url, $args );
     $logger->log( sprintf( "Call ended > %s", serialize( $response ) ) );
     $code     = wp_remote_retrieve_response_code( $response );
