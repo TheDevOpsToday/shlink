@@ -35,14 +35,14 @@ class Api
   private function log( $message )
   {
     if( $this->debug ) echo $message;
-    $message = sprintf("[%s] [%s] %s: %s", $this->pid, date('c'), $this->post->ID, $message );
-    file_put_contents($this->log_file, $message, FILE_APPEND); 
+    $message = sprintf("[%s] [%s] %s", $this->pid, date('c'), $message );
+    file_put_contents($this->log_file, $message, FILE_APPEND);
   }
 
   private function info( $message )
   {
     if( $this->info ) echo $message;
-    $message = sprintf("[%s] [%s] %s: %s", $this->pid, date('c'), $this->post->ID, $message );
+    $message = sprintf("[%s] [%s] %s", $this->pid, date('c'), $message );
     file_put_contents($this->log_file, $message, FILE_APPEND); 
   }
 

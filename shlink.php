@@ -22,7 +22,7 @@ spl_autoload_register(function($className){
 // Add setting link in the plugins list page
 add_filter('plugin_action_links_'.plugin_basename(__FILE__), array( 'Shlink\Setting', 'action_settings_link' ) );
 add_filter( 'pre_get_shortlink', array( 'Shlink\Init', 'create_short_url' ), 10, 4 );
-add_filter( 'get_shortlink', function($s){return $s;} );
+add_filter( 'get_shortlink', array( 'Shlink\Init', 'get_short_url' ) );
 
 // Create short url
 function shlink_short_url( $long_url, $custom_slug = '' ){

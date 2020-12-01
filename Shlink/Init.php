@@ -28,12 +28,30 @@ class Init
           $url = get_permalink( $post_id );
           $result = $api->create( $url );
           if( !is_wp_error( $result ) ){
-            $shortlink = $result->shortUrl;
+            $shortlink = true;
             update_post_meta( $post_id, '_shlink_shorturl', $result->shortUrl );
             update_post_meta( $post_id, '_shlink_shortcode', $result->shortCode );
           }
         }
       }
+    }
+    return $shortlink;
+  }
+
+  public function get_short_url( $shortlink, $id, $context, $allow_slugs )
+  {
+    $post_id = 0;
+    if ( 'query' === $context && is_singular() ) {
+      $post_id = get_queried_object_id();
+      $post    = get_post( $post_id );
+    } elseif ( 'post' === $context ) {
+      $post = get_post( $id );
+      if ( ! empty( $post->ID ) ) {
+        $post_id = $post->ID;
+      }
+    }
+    if ( ! empty( $post_id ) ) {
+      $shortlink = get_post_meta( $post_id, '_shlink_shorturl', true );
     }
     return $shortlink;
   }
