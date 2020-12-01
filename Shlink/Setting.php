@@ -16,18 +16,6 @@ class Setting
   const api_config_title = 'API Configuration';
   const api_config_desc  = 'Enter your shlink API configuration detail below. More detail <a href="https://shlink.io/documentation/api-docs/">here</a>.';
 
-
-  function __construct()
-  {
-    $this->actions();
-  }
-
-  public function actions()
-  {
-    add_action( 'admin_menu', array( $this, 'admin_menu' ) );
-    add_action( 'admin_init', array( $this, 'admin_init' ) );
-  }
-
   public static function get_setting( $key )
   {
     $settings = get_option( self::key_name );
@@ -35,7 +23,8 @@ class Setting
     else return isset( $settings[$key] ) ? $settings[$key] : null;
   }
 
-  public static function action_settings_link( $links ) {
+  public static function action_settings_link( $links )
+  {
     $links[] = '<a href="' .
       admin_url( sprintf('%s?page=%s', self::parent_page, self::menu_slug ) ) .
       '">' . __('Settings') . '</a>';
@@ -56,9 +45,9 @@ class Setting
     return $settings;
   }
 
-  public function admin_menu()
+  public static function admin_menu()
   {
-    add_submenu_page( self::parent_page, self::page_title, self::menu_title, self::capability, self::menu_slug, array( $this, 'settings_page' ) );
+    add_submenu_page( self::parent_page, self::page_title, self::menu_title, self::capability, self::menu_slug, array( __CLASS__, 'settings_page' ) );
   }
 
   public static function settings_page()
@@ -77,7 +66,7 @@ class Setting
     <?php
   }
 
-  public function admin_init()
+  public static function admin_init()
   {
     $settings = self::get_settings();
     $prefix = self::key_name.'_settings';
@@ -86,13 +75,13 @@ class Setting
     add_settings_section(
       $section_id,
       self::api_config_title,
-      array( $this, 'api_config_section' ),
+      array( __CLASS__, 'api_config_section' ),
       self::key_name
     );
     add_settings_field(
       $prefix.'_host',
       'API Host',
-      array( $this, 'api_config_input' ),
+      array( __CLASS__, 'api_config_input' ),
       self::key_name,
       $section_id,
       array(
@@ -107,7 +96,7 @@ class Setting
     add_settings_field(
       $prefix.'_key',
       'API Key',
-      array( $this, 'api_config_input' ),
+      array( __CLASS__, 'api_config_input' ),
       self::key_name,
       $section_id,
       array(
@@ -122,7 +111,7 @@ class Setting
     add_settings_field(
       $prefix.'_version',
       'API Version',
-      array( $this, 'api_config_input' ),
+      array( __CLASS__, 'api_config_input' ),
       self::key_name,
       $section_id,
       array(
@@ -140,7 +129,7 @@ class Setting
     add_settings_field(
       $prefix.'_timeout',
       'API Timeout',
-      array( $this, 'api_config_input' ),
+      array( __CLASS__, 'api_config_input' ),
       self::key_name,
       $section_id,
       array(
@@ -157,12 +146,12 @@ class Setting
 
   }
 
-  public function api_config_section()
+  public static function api_config_section()
   {
     echo sprintf( '<p>%s</p>', self::api_config_desc );
   }
 
-  public function api_config_input( $args )
+  public static function api_config_input( $args )
   {
     $atts = '';
     foreach ($args as $key => $value) {

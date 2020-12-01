@@ -5,6 +5,9 @@ class Init
 {
   public static function create_short_url( $shortlink, $id, $context, $allow_slugs )
   {
+    global $shlink_create_short_url;
+    if( $shlink_create_short_url ) return false;
+    $shlink_create_short_url = true;
     $post_id = 0;
     if ( 'query' === $context && is_singular() ) {
       $post_id = get_queried_object_id();
@@ -35,6 +38,7 @@ class Init
         }
       }
     }
+    $shlink_create_short_url = false;
     return $shortlink;
   }
 

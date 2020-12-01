@@ -19,8 +19,10 @@ spl_autoload_register(function($className){
   if(file_exists($filePath)) require_once $filePath;
 });
 
+add_action( 'admin_menu', array( 'Shlink\Setting', 'admin_menu' ) );
+add_action( 'admin_init', array( 'Shlink\Setting', 'admin_init' ) );
 // Add setting link in the plugins list page
-add_filter('plugin_action_links_'.plugin_basename(__FILE__), array( 'Shlink\Setting', 'action_settings_link' ) );
+add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), array( 'Shlink\Setting', 'action_settings_link' ) );
 add_filter( 'pre_get_shortlink', array( 'Shlink\Init', 'create_short_url' ), 10, 4 );
 add_filter( 'get_shortlink', array( 'Shlink\Init', 'get_short_url' ) );
 
