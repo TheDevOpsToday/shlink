@@ -23,8 +23,7 @@ add_action( 'admin_menu', array( 'Shlink\Setting', 'admin_menu' ) );
 add_action( 'admin_init', array( 'Shlink\Setting', 'admin_init' ) );
 // Add setting link in the plugins list page
 add_filter( 'plugin_action_links_'.plugin_basename(__FILE__), array( 'Shlink\Setting', 'action_settings_link' ) );
-add_filter( 'pre_get_shortlink', array( 'Shlink\Init', 'create_short_url' ), 10, 4 );
-add_filter( 'get_shortlink', array( 'Shlink\Init', 'get_short_url' ) );
+add_filter( 'pre_get_shortlink', array( 'Shlink\Init', 'create_short_url' ), 20, 2 );
 
 // Create short url
 function shlink_short_url( $long_url, $custom_slug = '' ){
