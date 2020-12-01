@@ -29,6 +29,7 @@ class Init
         if( empty( $shortlink ) ){
           $api = new Api();
           $url = get_permalink( $post_id );
+          $api->info( 'create_short_url - '.$url."\n" );
           $result = $api->create( $url );
           if( !is_wp_error( $result ) ){
             $shortlink = true;
