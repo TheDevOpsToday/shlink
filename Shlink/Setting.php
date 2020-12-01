@@ -42,7 +42,7 @@ class Setting
     return $links;
   }
 
-  final public function get_settings()
+  final public static function get_settings()
   {
     $default = array(
       'api_host' => '',
@@ -79,7 +79,7 @@ class Setting
 
   public function admin_init()
   {
-    $settings = $this->get_settings();
+    $settings = self::get_settings();
     $prefix = self::key_name.'_settings';
     $section_id = $prefix.'_section';
     register_setting( self::key_name, self::key_name );
