@@ -42,7 +42,7 @@ class Init
     return $shortlink;
   }
 
-  public function generate_short_url( $post_id )
+  public static function generate_short_url( $post_id )
   {
     if ( !in_array( get_post_status( $post_id ), array('publish', 'future', 'private') ) ) {
       return false;
