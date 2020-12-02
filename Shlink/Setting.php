@@ -38,6 +38,7 @@ class Setting
       'api_key'  => '',
       'api_version' => self::api_max_version,
       'api_timeout' => self::api_timeout,
+      'active' => '',
     );
     $settings = get_option( self::key_name );
     if( empty( $settings ) ) $settings = (object) $default;
@@ -77,6 +78,21 @@ class Setting
       self::api_config_title,
       array( __CLASS__, 'api_config_section' ),
       self::key_name
+    );
+    $active_args = array(
+      'name'  => sprintf( '%s[active]', self::key_name ),
+      'id'    => sprintf( '%s-active', self::key_name ),
+      'type'  => 'checkbox',
+      'value' => '1',
+    );
+    if( $settings->active ) $active_args['checked'] = 'checked';
+    add_settings_field(
+      $prefix.'_active',
+      'Active',
+      array( __CLASS__, 'api_config_input' ),
+      self::key_name,
+      $section_id,
+      $active_args
     );
     add_settings_field(
       $prefix.'_host',

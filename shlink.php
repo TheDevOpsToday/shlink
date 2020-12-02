@@ -63,7 +63,7 @@ function shlink_generate_short_url( $post_id, $custom_slug = null )
     if( !empty( $shortlink ) ) return $shortlink;
     $settings = Shlink\Setting::get_settings();
     // check settings
-    if( empty( $settings->api_host ) || empty( $settings->api_key ) || empty( $settings->api_version ) ) return false;
+    if( empty( $settings->active ) || empty( $settings->api_host ) || empty( $settings->api_key ) || empty( $settings->api_version ) ) return false;
 
     $url = sprintf('%s/rest/v%s/short-urls', $settings->api_host, $settings->api_version );
     $args = array(
